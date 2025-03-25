@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import React, { useState } from "react";
 import { useConfigStore } from "@/store/useConfigStore";
+import { API_URL } from "@/lib/config";
 import {
   Collapsible,
   CollapsibleContent,
@@ -59,7 +60,7 @@ const HeaderNav = () => {
 
     if (isSaved) {
       try {
-        const response = await fetch('https://lm-test-cyan.vercel.app/api/configuration', {
+        const response = await fetch(`${API_URL}/api/configuration`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ headerNav: itemToDelete }),

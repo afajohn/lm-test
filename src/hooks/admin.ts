@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { useConfigStore } from "@/store/useConfigStore";
+import { API_URL } from "@/lib/config";
 
 
 //Users data Hooks
@@ -36,7 +38,7 @@ export const useUserDataStates = () => {
       const fetchUserData = async () => {
         try {
             setLoading(true); 
-            const response = await fetch('https://lm-test-cyan.vercel.app/api/users');
+            const response = await fetch(`${API_URL}/api/users`);
             const data = await response.json();
             setUserData(data);
         } catch (err) {
@@ -59,8 +61,6 @@ export const useUserDataStates = () => {
   
 }
 //Config hooks
-
-import { useConfigStore } from "@/store/useConfigStore";
 
 export const useConfigHooks= () =>{
       const [navList, setNavList] = useState<
@@ -90,7 +90,7 @@ export const useConfigHooks= () =>{
       //GET current data
       const getCurrentConfig = useCallback(async () => {
         try {
-          const response = await fetch('https://lm-test-cyan.vercel.app/api/configuration');
+          const response = await fetch(`${API_URL}/api/configuration`);
           const data = await response.json();
           if (data[0]) {
             setLogoUrl(data[0].logo);
@@ -264,7 +264,7 @@ useEffect(() => {
                   formData.append("color", JSON.stringify(shades));
                   formData.append("navlink", JSON.stringify(navList));
                   try {
-                      const response = await fetch('https://lm-test-cyan.vercel.app/api/configuration', {
+                      const response = await fetch(`${API_URL}/api/configuration`, {
                           method: "PUT",
                           body: formData,
                       });
@@ -286,7 +286,7 @@ useEffect(() => {
                 const isSaved = navList.some(navItem => navItem.title === selectedList);
                 if (isSaved) {
                     try {
-                        const response = await fetch('https://lm-test-cyan.vercel.app/api/configuration', {
+                        const response = await fetch(`${API_URL}/api/configuration`, {
                             method: "DELETE",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ title: selectedList }),
@@ -311,7 +311,7 @@ useEffect(() => {
                 );
                 if (isSaved) {
                     try {
-                        const response = await fetch('https://lm-test-cyan.vercel.app/api/configuration', {
+                        const response = await fetch(`${API_URL}/api/configuration`, {
                             method: "DELETE",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ name: selectedNavItem.name }),
@@ -334,7 +334,7 @@ useEffect(() => {
 
         
     const fetchRotator = useCallback(async () => {
-      const res = await fetch(`https://lm-test-cyan.vercel.app/api/ladies/rotator?website=${selectedSite}`);
+      const res = await fetch(`${API_URL}/api/ladies/rotator?website=${selectedSite}`);
       const data = await res.json();
       return data;
     }, [selectedSite]); 
