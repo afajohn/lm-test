@@ -4,7 +4,7 @@ export const getApiUrl = () => {
         return '';
     }
     // In production, use the full URL
-    return 'https://lm-test-cyan.vercel.app';
+    return process.env.NEXTAUTH_URL;
 };
 
 export const API_URL = getApiUrl(); 

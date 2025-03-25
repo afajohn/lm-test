@@ -1,6 +1,6 @@
 import type { Blog } from "@/app/types/article";
 
-const BASE_URL = "https://lm-test-cyan.vercel.app"
+
 
 export const extractImageSrc = (content: string) => {
     const match = content.match(/<img[^>]+src="([^"]+)"/);
@@ -21,7 +21,7 @@ interface FetchBlogsResponse {
 
 export const fetchBlogsAll = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/api/blog?pt=article&pageSize=1000`, {next: {revalidate:7200}})
+        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/blog?pt=article&pageSize=1000`, {next: {revalidate:7200}})
         if(!response.ok) {
             throw new Error("Failed to fetch All Blogs")
         }
@@ -40,7 +40,7 @@ export const fetchBlogsAll = async () => {
 export const fetchBlogs = async (category:string, page = 1): Promise<FetchBlogsResponse> => {
 
    try{
-    const response = await fetch(`${BASE_URL}/api/blog?ctgy=${category}&page=${page}`, {next: {revalidate: 7200}});
+    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/blog?ctgy=${category}&page=${page}`, {next: {revalidate: 7200}});
     if(!response.ok) {
         throw new Error(`Failed to fetch blogs for category: ${category}, page: ${page}`)
     }
