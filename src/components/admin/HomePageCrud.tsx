@@ -147,7 +147,7 @@ function HomePageCrud() {
 	useEffect(() => {
 		const getCurrentValue = async () => {
 			try {
-				const response = await fetch('/api/homepagecrud');
+				const response = await fetch(process.env.NEXTAUTH_URL+'/api/homepagecrud');
 				const data: HomePageData[] = await response.json();
 
 				if (data[0]?.pricing) {
@@ -1467,7 +1467,7 @@ function HomePageCrud() {
 			formData.append("successStories", JSON.stringify(successStories));
 			formData.append("newsLetter", JSON.stringify(newsLetter));
 
-			const response = await fetch('/api/homepagecrud', {
+			const response = await fetch(process.env.NEXTAUTH_URL+'/api/homepagecrud', {
 				method: "PUT",
 				body: formData,
 			});

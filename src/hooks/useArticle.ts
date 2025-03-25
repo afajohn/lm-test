@@ -33,7 +33,7 @@ export function useArticleTable() {
     try {
       pageParams.dataSource =  "search";
       pageParams.sq =  value;
-      const newArticlesData = await handleRequest(`/api/blog?sq=${pageParams.sq}`, "GET")
+      const newArticlesData = await handleRequest(`${process.env.NEXTAUTH_URL}/api/blog?sq=${pageParams.sq}`, "GET")
       setArticlesData({articles: newArticlesData.articles, totalPages: newArticlesData.totalPages, length: newArticlesData.pageSize}); 
     } catch (error) {
       console.error("Error fetching articles:", error);
@@ -48,7 +48,7 @@ export function useArticleTable() {
     setDataSource(value);
     const currentParams = new URLSearchParams();
     currentParams.set("ds", value);
-    router.push(`/afa-admin/articles/article-table?${currentParams.toString()}`);
+    router.push(`${process.env.NEXTAUTH_URL}/afa-admin/articles/article-table?${currentParams.toString()}`);
   };
 
   const handleDeleteClick = (id: number) => {
@@ -59,7 +59,7 @@ export function useArticleTable() {
     if (!deleteArticleId) return;
     setloadingDltArt(true)
     try {
-      const url = dataSource ===  "bigquery" ? `/api/blog/${deleteArticleId}` : `/api/articles/${deleteArticleId}`
+      const url = dataSource ===  "bigquery" ? `${process.env.NEXTAUTH_URL}/api/blog/${deleteArticleId}` : `${process.env.NEXTAUTH_URL}/api/articles/${deleteArticleId}`
       if (dataSource ===  "bigquery" )
       await handleRequest(url, "PUT", { "page_status": "archived" })
       else await handleRequest( url, "DELETE"); // Hard Delete;
@@ -189,7 +189,7 @@ export function useArticleForm(existingArticle?: Article): ArticleProps {
 
   const uploadToGoogleCloud = async (imageUrl: string, newFileName: string): Promise<string> => {
     try {
-      const response = await fetch("/api/upload", {
+      const response = await fetch(process.env.NEXTAUTH_URL+"/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ imageUrl, newFileName }),
@@ -230,7 +230,7 @@ export function useArticleForm(existingArticle?: Article): ArticleProps {
         altText = firstImageAlt || ""   // console.log(imagePath, altText)
       }
 
-      const url = ds === "bigquery" ?  "/api/blog" : "/api/articles";
+      const url = ds === "bigquery" ?  process.env.NEXTAUTH_URL+"/api/blog" : process.env.NEXTAUTH_URL+"/api/articles";
       const pushUrl = ds === "bigquery" ? "?ds=bigquery": "?ds=json" ;
       const postData = ds === "bigquery" ? 
         {
@@ -254,7 +254,7 @@ export function useArticleForm(existingArticle?: Article): ArticleProps {
         } : {...data, ...{'author': author }}; // console.log("uploading data:", postData);
 
       await handleRequest(url, "POST", { ...postData, content: updatedContent, imagePath, altText });
-      router.push(`/afa-admin/articles/article-table${pushUrl}`);
+      router.push(`${process.env.NEXTAUTH_URL}/afa-admin/articles/article-table${pushUrl}`);
       toast.success("Article added successfully!");
     } catch {
       toast.error("Failed to add article");
@@ -278,10 +278,10 @@ export function useArticleForm(existingArticle?: Article): ArticleProps {
     });
 
     try {
-      const url = ads ?  `/api/blog/${existingArticle?.page_id}` : `/api/articles/${existingArticle.id}`;
+      const url = ads ?  `${process.env.NEXTAUTH_URL}/api/blog/${existingArticle?.page_id}` : `${process.env.NEXTAUTH_URL}/api/articles/${existingArticle.id}`;
       const pushUrl = ads ? "?ds=bigquery": "?ds=json" ;
       await handleRequest(url, "PUT", { ...data, content});
-      router.push(`/afa-admin/articles/article-table${pushUrl}`);
+      router.push(`${process.env.NEXTAUTH_URL}/afa-admin/articles/article-table${pushUrl}`);
       toast.success("Article updated successfully!");
     } catch {
       toast.error("Failed to update article");

@@ -8,7 +8,7 @@ const fetcher = async (url: string) => {
 };
 
 export function useConfigColor() {
-  const { data } = useSWR("/api/configuration", fetcher);
+  const { data } = useSWR(process.env.NEXTAUTH_URL+"/api/configuration", fetcher);
 
   document.documentElement.style.setProperty(
     "--dynamic-primary50",

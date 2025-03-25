@@ -24,9 +24,9 @@ export function useEntityForm(entitiesData?: Entity, endpoint?: string) : Entity
   const handleUpdate = async () => {
 		if (!entitiesData) return;
 		try {
-			await handleRequest(`/api/${endpoint}/${entitiesData.id}`, "PUT", data );
+			await handleRequest(`${process.env.NEXTAUTH_URL}/api/${endpoint}/${entitiesData.id}`, "PUT", data );
 			setMessage(`${endpoint} added successfully!`);
-			router.push(`/afa-admin/${endpoint}`);
+			router.push(`${process.env.NEXTAUTH_URL}/afa-admin/${endpoint}`);
 		} catch { 
 			setMessage(`Failed to add ${endpoint}`);
 		}
@@ -34,9 +34,9 @@ export function useEntityForm(entitiesData?: Entity, endpoint?: string) : Entity
 	const handleSubmit = async () => {
 		if (!entitiesData) return;
     try {
-			await handleRequest(`/api/${endpoint}`, "POST", data );
+			await handleRequest(`${process.env.NEXTAUTH_URL}/api/${endpoint}`, "POST", data );
 			setMessage(`${endpoint} added successfully!`);
-			router.push(`/afa-admin/${endpoint}`);
+			router.push(`${process.env.NEXTAUTH_URL}/afa-admin/${endpoint}`);
 		} catch {
 				setMessage(`Failed to add ${endpoint}`);
 			}
@@ -64,7 +64,7 @@ export function useEntityTable(endpoint: string) {
 	const confirmDelete = async () => {
 		if (!deleteEntityId) return;
 		try {
-			await handleRequest(`/api/${endpoint}/${deleteEntityId}`, "DELETE");
+			await handleRequest(`${process.env.NEXTAUTH_URL}/api/${endpoint}/${deleteEntityId}`, "DELETE");
 			setMessage("Article deleted successfully!");
 			router.refresh();
 		} catch {

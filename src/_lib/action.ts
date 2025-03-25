@@ -18,7 +18,7 @@ export async function submitUploadToGCSAction(formData: FormData): Promise<void>
 			const individualFormData = new FormData();
 			individualFormData.append("file", file);
 
-			const response = await fetch("/api/configuration/media-logo-banner", {
+			const response = await fetch(process.env.NEXTAUTH_URL+"/api/configuration/media-logo-banner", {
 				method: "POST",
 				body: individualFormData,
 			});
