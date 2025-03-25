@@ -20,25 +20,17 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     ? new Date(blog.created_at.value).toISOString().split("T")[0]
     : "Unknown";
 
-    let isInternal;
-    if (blog?.category_slug != 'internal'){
-     isInternal = false;
-    }
+    const url = `${siteMetadata.siteUrl}/${blog?.category_slug}/${blog?.slug_name}`
 
-    const canonical = `${siteMetadata.siteUrl}/${isInternal ? blog?.slug_name : blog?.category_slug }/${isInternal ? '' : blog?.slug_name }`;
   return {
     title: blog?.title_name,
     description: blog?.description_body,
     keywords: blog?.keyword_body,
     robots: siteMetadata.robots,
- 
-    alternates: {
-      canonical: canonical,
-    },
     openGraph: {
       title: blog?.title_name,
       description: blog?.description_body,
-      url: canonical,
+      url: url,
       siteName: siteMetadata.title,
       locale: "en_US",
       type: "article",
@@ -50,6 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     twitter: {
       card: "summary_large_image",
       title: blog?.title_name,
+      url: url,
       description: blog?.description_body,
       images: blog?.images,
     },

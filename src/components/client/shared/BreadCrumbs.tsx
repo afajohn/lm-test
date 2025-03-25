@@ -60,11 +60,10 @@ const Breadcrumbs = () => {
     };
   }, [breadcrumbs]);
 
-  if(!isBlogPage) return null;
-
   return (
     <>
       <link rel="canonical" href={siteMetadata.siteUrl + pathname} />
+      {isBlogPage && (
       <div className="flex items-center space-x-2 bg-gray-100 p-6 sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -124,6 +123,7 @@ const Breadcrumbs = () => {
           </div>
         ))}
       </div>
+      )}
     </>
   );
 };

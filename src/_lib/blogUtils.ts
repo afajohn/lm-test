@@ -1,6 +1,6 @@
 import type { Blog } from "@/app/types/article";
 
-const BASE_URL = process.env.NEXTAUTH_URL
+const BASE_URL = "http://loveme.local"
 
 export const extractImageSrc = (content: string) => {
     const match = content.match(/<img[^>]+src="([^"]+)"/);
@@ -17,6 +17,24 @@ export const formatCategory = (category: string) => {
 interface FetchBlogsResponse {
     data: {totalRecords: number}; // Full API response
     articles: Blog[]; // Array of Blog objects
+}
+
+export const fetchBlogsAll = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/blog?pt=article&pageSize=1000`, {next: {revalidate:7200}})
+        if(!response.ok) {
+            throw new Error("Failed to fetch All Blogs")
+        }
+        const data = await response.json();
+        return {
+            data,
+            articles: data.articles || [],
+        }
+    }
+    catch(err) {
+        console.error("fetchBlogs error:", err);
+        return { data: { totalRecords: 0 }, articles: [] }; 
+       }
 }
 
 export const fetchBlogs = async (category:string, page = 1): Promise<FetchBlogsResponse> => {

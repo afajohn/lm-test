@@ -1,6 +1,6 @@
 "use client";
 
-import { extractImageSrc, fetchBlogs } from "@/_lib/blogUtils";
+import { extractImageSrc, fetchBlogsAll } from "@/_lib/blogUtils";
 import type { Blog } from "@/app/types/article";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ const MobileLayout = () => {
   }, []);
 
   useEffect(() => {
-    fetchBlogs("all", 1).then(({ articles }) => {
+    fetchBlogsAll().then(({ articles }) => {
       const uniqueCategories: string[] = articles
         .filter((blog: Blog) => blog.category_name) // Remove undefined/null categories
         .map((blog: Blog) => blog.category_name.trim()) // Now it's safe to trim
