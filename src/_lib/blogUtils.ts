@@ -1,6 +1,6 @@
 import type { Blog } from "@/app/types/article";
 
-const BASE_URL = "http://loveme.local"
+const BASE_URL = "lm-test-cyan.vercel.app"
 
 export const extractImageSrc = (content: string) => {
     const match = content.match(/<img[^>]+src="([^"]+)"/);

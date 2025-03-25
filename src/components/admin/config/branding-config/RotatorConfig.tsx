@@ -31,7 +31,7 @@ const RotatorConfig = () => {
   }, [search, rotator, setFilteredRotator]);
 
   const getWomenRotator = useCallback(async () => {
-    const response = await fetch('http://loveme.local/api/ladies?allsites=true');
+    const response = await fetch('lm-test-cyan.vercel.app/api/ladies?allsites=true');
     const data = await response.json();
     console.log(data);
     if (data) {
