@@ -59,7 +59,7 @@ const HeaderNav = () => {
 
     if (isSaved) {
       try {
-        const response = await fetch('lm-test-cyan.vercel.app/api/configuration', {
+        const response = await fetch('https://lm-test-cyan.vercel.app/api/configuration', {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ headerNav: itemToDelete }),

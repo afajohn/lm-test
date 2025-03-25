@@ -1,7 +1,3 @@
-"use client";
-
 export default function BlogPage() {
-    return (
-        <></>
-    )
+    return null;
 }

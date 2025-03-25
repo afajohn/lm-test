@@ -27,6 +27,15 @@ const nextConfig: NextConfig = {
 		],
 
 	},
+	// Add optimization settings
+	swcMinify: true,
+	compiler: {
+		removeConsole: process.env.NODE_ENV === "production",
+	},
+	// Increase build memory limit
+	experimental: {
+		largePageDataBytes: 128 * 100000, // Increase to 12.8MB
+	},
 	async rewrites() {
 		return [
 		  // ✅ Ensure category pages are still available under /blog/:category
